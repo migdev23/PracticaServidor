@@ -1,0 +1,5 @@
+{
+    "name":"Docker.php",
+    "dockerFile":"Dockerfile",
+    "appPort":3000
+}
