@@ -13,16 +13,6 @@ let menu = `
     5 - Salir
 `;
 
-const lanzarMenuRetornarNumero = () => {
-  return new Promise((resolve, reject) => {
-    interfaz.setPrompt(menu);
-    interfaz.prompt();
-    interfaz.on("line", (linea) => {
-      resolve(linea);
-    });
-  });
-};
-
 const preguntarUsuario = (pregunta) => {
   return new Promise((resolve, reject) => {
     interfaz.setPrompt(pregunta);
@@ -54,7 +44,7 @@ const leerArchivo = (ruta) => {
 
 const crearArchivo = (ruta) => {
   return new Promise(async (resolve, reject) => {
-    fs.appendFileSync(`${ruta}: `, "");
+    fs.appendFileSync(`${ruta}`, "");
     resolve();
   });
 };
@@ -83,41 +73,59 @@ const anadirArchivoTexto = (ruta) => {
 
 const pedirArchivo = async (opcion) => {
   let ruta = 0;
-  do {
-    ruta = await preguntarUsuario(
-      "Indicame la ruta del archivo con el archivo:"
-    );
-  } while (!fs.existsSync(ruta));
+  let stats = "";
+  let esArchivo = false;
+  let esDirectorio = false;
+  let nombreArchivo = '';
+  let msg =
+    opcion == 2
+      ? `Indicame la ruta de la carpeta donde crear el archivo: `
+      : `Indicame la ruta del archivo con el archivo: `;
+
+  while (!esArchivo && opcion != 2) {
+    ruta = await preguntarUsuario(msg);
+    try {
+      stats = fs.statSync(ruta);
+      esArchivo = stats.isFile();
+    } catch (error) {
+      esArchivo = false;
+    }
+  }
+
+  while (!esDirectorio && opcion == 2) {
+    ruta = await preguntarUsuario(msg);
+    try {
+      stats = fs.statSync(ruta);
+      esDirectorio = stats.isDirectory();
+    } catch (error) {
+      esDirectorio = false;
+    }
+
+    nombreArchivo = await preguntarUsuario('Indica el nombre con la extension para crear el archivo');
+    ruta = `${ruta}/${nombreArchivo}`
+  }
+
   return ruta;
 };
 
 const promesaPregunta = () => {
   return new Promise(async (resolve, reject) => {
     interfaz.question(menu, async (respuesta) => {
-      while (
-        isNaN(respuesta) ||
-        parseInt(respuesta) > 5 ||
-        parseInt(respuesta) < 1
-      ) {
-        respuesta = await lanzarMenuRetornarNumero();
-      }
-
+          
+      while (isNaN(respuesta) || parseInt(respuesta) > 5 || parseInt(respuesta) < 1) 
+        respuesta = await preguntarUsuario(menu);
+  
       respuesta = parseInt(respuesta);
+
       if (respuesta == 5) {
         interfaz.close();
         return resolve(false);
       }
 
-  
-      let ruta = pedirArchivo(respuesta);
-
-      //   if(ruta[ruta.length-1] === '/'){
-      //     ruta.pop()
-      //   }
+      let ruta = await pedirArchivo(respuesta);
 
       switch (respuesta) {
         case 1:
-        
           await leerArchivo(ruta);
           break;
 
@@ -126,20 +134,21 @@ const promesaPregunta = () => {
           break;
 
         case 3:
-        
           await anadirArchivoTexto(ruta);
           break;
 
         case 4:
-      
           fs.unlinkSync(`${ruta}`);
           break;
       }
+
+      return resolve(true);
     });
   });
 };
 
 let salir = true;
+
 (async () => {
   do {
     salir = await promesaPregunta();
