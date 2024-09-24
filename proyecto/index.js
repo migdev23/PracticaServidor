@@ -3,15 +3,6 @@ console.log('hello'.green)
 */
 const axios = require("axios").default;
 
-axios
-  .get("https://rickandmortyapi.com/api/character")
-  .then((res) => {
-    console.log(res.data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 console.log("Inico");
 
 let despedirse = function (nombre) {
@@ -19,13 +10,23 @@ let despedirse = function (nombre) {
 };
 
 function saludar(nombre, callback) {
-  console.log("Hola " + nombre);
-
-  setTimeout(() => {
-    callback(nombre);
-  }, 0);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Hola " + nombre);
+      callback(nombre);
+      resolve();
+    }, 0);
+  });
 }
 
-saludar("Juan", despedirse);
-
-console.log("Aqui continuamos con el flujo");
+axios
+  .get("https://rickandmortyapi.com/api/character")
+  .then((res) => {
+    console.log(res);
+    saludar("Juan", despedirse)
+      .then((res) => {
+        console.log("Aqui continuamos con el flujo");
+      })
+      .catch((err) => console.log(err));
+  })
+  .catch((err) => console.log(err));
