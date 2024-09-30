@@ -109,7 +109,6 @@ const pedirArchivo = async (opcion) => {
 };
 
 const promesaPregunta = () => {
-  return new Promise(async (resolve, reject) => {
     interfaz.question(menu, async (respuesta) => {
           
       while (isNaN(respuesta) || parseInt(respuesta) > 5 || parseInt(respuesta) < 1) 
@@ -119,7 +118,7 @@ const promesaPregunta = () => {
 
       if (respuesta == 5) {
         interfaz.close();
-        return resolve(false);
+        return null
       }
 
       let ruta = await pedirArchivo(respuesta);
@@ -142,15 +141,9 @@ const promesaPregunta = () => {
           break;
       }
 
-      return resolve(true);
+      promesaPregunta();
     });
-  });
 };
 
-let salir = true;
 
-(async () => {
-  do {
-    salir = await promesaPregunta();
-  } while (salir);
-})();
+promesaPregunta()
