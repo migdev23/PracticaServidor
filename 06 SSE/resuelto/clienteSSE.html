@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client SSE</title>
+</head>
+<body>
+  <h1>Hora actualizada desde el servidor:</h1>
+  <div id="time"></div>
+
+  <script>
+    // Crear una nueva conexión con el servidor usando Server-Sent Events
+    const eventSource = new EventSource('http://localhost:3000');
+
+    // Escuchar los eventos enviados desde el servidor
+    eventSource.onmessage = (event) => {
+      document.getElementById('time').textContent = event.data;
+    };
+
+    eventSource.onerror = function(event) {
+      console.error('Error de SSE:', event);
+      eventSource.close();
+    };
+  </script>
+</body>
+</html>

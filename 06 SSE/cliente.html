@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="time"></div>
+    <script>
+      const eventSource = new EventSource("http://localhost:5000");
+
+      // Escuchar los eventos enviados desde el servidor
+      eventSource.onmessage = (event) => {
+        document.getElementById("time").textContent = event.data;
+      };
+
+      eventSource.onerror = function (event) {
+        console.error("Error de SSE:", event);
+        eventSource.close();
+      };
+    </script>
+  </body>
+</html>

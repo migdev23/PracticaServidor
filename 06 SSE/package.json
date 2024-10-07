@@ -1,5 +1,5 @@
 {
-  "name": "03-tcp",
+  "name": "06-sse",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
