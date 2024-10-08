@@ -24,7 +24,6 @@ const server = http.createServer((req,res) => {
         clearInterval(intervalId);
     })
 
-
 });
 
 

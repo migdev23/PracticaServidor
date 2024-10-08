@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="text">
+        <input type="submit" value="Enviar al Servidor">
+    </form>
+
+    <div id="mensajes"></div>
+    
+    <script>
+        
+        const form = document.querySelector('form');
+        const input =  document.querySelector('input');
+        const mensajesCajaDOM = document.querySelector('#mensajes');
+
+        const ws = new WebSocket('ws://localhost:8080')
+
+        form.addEventListener('submit',(e) => {
+            e.preventDefault();
+            ws.send(input.value);
+        })
+
+        // ws.onopen = (event) => {
+        //     ws.send("Here's some text that the server is urgently awaiting!");
+        // };
+        
+        ws.onmessage = (event) => {
+            const {mensaje, hora} = JSON.parse(event.data);
+            mensajesCajaDOM.innerHTML += `<div>${mensaje} - <strong>${hora}</strong></div>`;
+        }
+    </script>
+</body>
+</html>

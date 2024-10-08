@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USUARIO</title>
+    <style>
+        *{
+            margin: 0px ;
+            padding: 0px;
+        }
+
+        body{
+            background: #f6f6fc;
+        }
+       
+        main{
+            width: 70%;
+            margin: 0px auto;
+        }
+        .messagesContainer{
+            height: 40vh;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            margin: 0px auto;
+        }
+
+        .messagesContainer::-webkit-scrollbar {
+            width: 12px;               /* width of the entire scrollbar */
+        }
+
+        .messagesContainer::-webkit-scrollbar-thumb {
+            background-color:#cbcbf0;    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 1px solid #4b3f73;
+        }
+
+        .messagesContainer > div{
+            width: 90%;
+            box-shadow: 6px 6px 2px #4b3f73;
+            background: #e1e1f3;
+            border-left: 5px solid #8a7bc1;
+            padding: 4px;
+            margin: 16px auto;
+            border-radius: 5px;
+        }
+
+        form > *{
+            display: block;
+            margin: 1em auto;
+            padding: 1em;
+            border-radius: 10px;
+        }
+
+        form textarea{
+            width: 90%;
+            height: 15vh;
+            border: 1px solid black;
+            margin: 20px auto;
+        }
+
+        form button{
+            width: 40%;
+            background: #8a7bc1;
+            color: white;
+            box-shadow: 6px 6px 2px #4b3f7381;
+            transition: all 300ms;
+            border: none;
+            cursor: pointer;
+        }
+
+        
+        form button:hover{
+            transform: scale(1.03);
+            background: #6c5aa7;
+        }
+
+    
+        #userActivos{
+            color: #2f284d;
+            text-align: center;
+            margin: 1em auto;
+        }
+
+        .autorMessage{
+            color: #2f284d;
+        }
+
+        .message{
+            color: #5a4b8c;
+        }
+
+        .hourMessage{
+            text-align: right;
+            color: #5a4b8c;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section id="userActivos"></section>
+        <section class="messagesContainer"></section>
+        <section>
+            <form>
+                <textarea type="text" placeholder="Write Message"></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section> 
+    </main>
+   
+    <script src="./indexClient.js"></script>
+</body>
+</html>

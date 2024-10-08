@@ -1,0 +1,58 @@
+[
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Hola",
+        "hora": "9:3",
+        "autor": "kiko"
+    },
+    {
+        "idClient": 1,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "que tal",
+        "hora": "9:3",
+        "autor": "laura"
+    },
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Holartgdfgdfg",
+        "hora": "9:4",
+        "autor": "kiko"
+    },
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Holartgdfgdfg",
+        "hora": "9:4",
+        "autor": "kiko"
+    },
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Holartgdfgdfg",
+        "hora": "9:4",
+        "autor": "kiko"
+    },
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Holartgdfgdfg",
+        "hora": "9:4",
+        "autor": "kiko"
+    },
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Holartgdfgdfg",
+        "hora": "9:4",
+        "autor": "kiko"
+    },
+    {
+        "idClient": 0,
+        "typeMessage": "MENSAJE_USER",
+        "mensaje": "Holartgdfgdfg",
+        "hora": "9:4",
+        "autor": "kiko"
+    }
+]
