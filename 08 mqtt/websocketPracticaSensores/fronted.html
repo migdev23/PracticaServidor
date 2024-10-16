@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="messages"></div>
+    
+    <div>
+        <h2>Enviar Mensaje</h2>
+        <input type="text">
+        <button>Enviar</button>
+    </div>
+    
+    <!-- IMPORTAMOS LIBRERIA DE MQTT PARA EL FRONTED Y NOS DA EL OBJETO MQTT -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script>
+        
+        //Aqui ponemos el cliente a escuchar al mqtt mediante mqqtt.connect
+        const client = mqtt.connect('ws://localhost:8080');
+        
+        //Gestionamos las variables del dom
+        const messageDiv = document.querySelector('#messages');
+        
+        const messageInput = document.querySelector('input');
+        
+        const sendButton = document.querySelector('button');
+
+        //Estamos a la escucha connect del cliente propio de mqtt
+        client.on('connect', () => {
+            console.log('Conectado al broker MQTT via WebSocket');    
+            client.subscribe('sensor/temperatura');
+        })
+
+        //Cuando recibimos un mensaje del servidor mqtt
+        client.on('message', (topic, message) => {
+              messageDiv.innerHTML += `
+                <div>
+                    <span><strong>${topic}</strong></span>
+                    <span>${message.toString()}</span>
+                </div>`
+        });
+
+        sendButton.addEventListener('click',()=>{
+            client.publish('sensor/temperatura', messageInput.value); //Publicar un tema
+        });
+
+       
+
+    </script>
+
+</body>
+</html>

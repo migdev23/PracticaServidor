@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div>
+        <h2>Unirse a una sala</h2>
+        <input type="text"  id="inputUnirseSala" placeholder="Introduce el nombre de la sala">
+        <button id="unirseSala">Unirse</button>
+    </div>
+
+    <div>
+        <h2>Mandar Mensaje</h2>
+        <input type="text" id="mensajeMandar" placeholder="Introduce el mensaje a Mandar">
+        <button id="mandarBroadcast">Mandar Broadcast</button>
+        <button id="mandarGrupo">Mandar Grupo</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+
+        //DOM
+        const inputSala = document.querySelector('#inputUnirseSala');
+        const inputMensajeMandar = document.querySelector('#mensajeMandar');
+        const btnUnirseSala = document.querySelector('#unirseSala')
+        const btnMandarBroadcast = document.querySelector('#mandarBroadcast')
+        const btnMandarGrupo = document.querySelector('#mandarGrupo');
+        
+        const server = io();
+
+        btnUnirseSala.addEventListener('click',()=>{
+            if(inputSala.value.length > 0){
+                server.emit('unirseGrupo', inputSala.value);
+                server.on(inputSala.value, (message) =>{
+                    console.log(message)
+                })
+            }
+        });
+
+        btnMandarBroadcast.addEventListener('click',()=>{
+            server.emit('mandarBroadCast', inputMensajeMandar.value);
+        });
+
+        btnMandarGrupo.addEventListener('click',()=>{
+            server.emit('mandarGrupo', JSON.stringify({sala:inputSala.value, mensaje:inputMensajeMandar.value}));
+        });
+
+        server.on('broadcast', (message) => {
+            console.log(message)
+        });
+
+
+
+    </script>
+</body>
+</html>

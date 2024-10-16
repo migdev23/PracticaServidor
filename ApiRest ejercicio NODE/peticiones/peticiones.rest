@@ -8,7 +8,7 @@ POST http://localhost:3000/item
 Content-Type: application/json
 
 {
-    "id":3450325,
+    "id":1,
     "name":"margarita2"
 }
 ###

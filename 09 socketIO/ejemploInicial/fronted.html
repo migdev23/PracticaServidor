@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <ul id="mensajes">
+
+    </ul>
+
+    <input type="text">
+    <button>Enviar</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const server = io();
+
+        document.querySelector('button').addEventListener('click',()=>{
+            server.emit('mensaje2314', document.querySelector('input').value)
+        });
+
+        server.on('broadcast', (message)=>{
+            document.querySelector('#mensajes').innerHTML += `<li>${message}</li>`
+        });
+
+        server.on('respuesta', (message)=>{
+            document.querySelector('#mensajes').innerHTML += `<li>${message}</li>`
+        });
+
+    
+
+    </script>
+</body>
+</html>
