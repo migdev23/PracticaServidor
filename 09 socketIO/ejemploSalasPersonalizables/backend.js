@@ -10,20 +10,38 @@ const serverHttp = http.createServer((req, res) => {
 const io = new Server(serverHttp);
 
 io.on('connection',(socket) =>{
-    socket.on('unirseGrupo',(sala) => {
-        socket.join(sala);
+
+    socket.groups = [];
+
+    socket.on('unirseGrupo', (sala) => { 
+        if(!socket.groups.includes(sala) && sala != ''){
+            socket.groups.push(sala)
+            socket.join(sala);
+        }
     });
 
-    socket.on('mandarBroadCast',(args) => {
-        io.emit('broadcast', args)
+    socket.on('salirGrupo',(sala) => {
+        if(socket.groups.includes(sala)){
+                socket.groups = socket.groups.filter((element) => element != sala)
+                socket.leave(sala);
+            } 
     });
+
+    socket.on('mandarBroadCast',(mensaje) => {
+        if(mensaje != '')
+            io.emit('broadcast', mensaje);
+    });
+
 
     socket.on('mandarGrupo',(data) => {
         const {sala, mensaje} = JSON.parse(data);
-        socket.to(sala).emit(sala, mensaje);
+        if(socket.groups.includes(sala)){
+            socket.to(sala).emit(sala, {mensaje,sala});
+        }
     });
+
 });
 
 serverHttp.listen(3000, () => {
     console.log('Servidor corriendo port 3000')
-})
+});

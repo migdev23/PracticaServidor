@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            grid-gap:10px;
+        }
+
+        input{
+            display: block;
+            margin: 10px 0px;
+            padding: 10px;
+        }
+
+        button{
+            padding: 20px;
+            max-height: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="readAll">ReadAll</button>
+
+    <div>
+        <input type="text" id="readByIdInput">
+        <button id="readByIdBtn" aria-placeholder="Introduce depart_no">ReadByID</button>
+    </div>
+
+
+    <div>
+        <input type="text" id="deleteByIdInput" placeholder="Eliminar Registro">
+        <button id="deleteByIdBtn" aria-placeholder="Introduce depart_no">Eliminar Registro</button>
+    </div>
+
+    <div>
+        <input type="text" id="createByIdInputNombre" placeholder="Dnombre">
+        <input type="text" id="createByIdInputLoc" placeholder="Loc">
+        <input type="text" id="createByIdInputDepart_no" placeholder="Depart_no">
+        <button id="createByIdBtn" aria-placeholder="Introduce depart_no">Crear Registro</button>
+    </div>
+
+
+
+    <div>
+        <input type="text" id="updateByIdInputDepart_no" placeholder="Depart_no">
+        <input type="text" id="updateByIdInputCampo" placeholder="Campo">
+        <input type="text" id="updateByIdInputValor" placeholder="Valor">
+        <button id="updateByIdBtn" aria-placeholder="Introduce depart_no">Actualizar Registro</button>
+    </div>
+
+
+
+    <script>
+        const uriServer = 'http://localhost:3000'
+        const btnReadAll = document.querySelector('#readAll');
+        const btnReadById = document.querySelector('#readByIdBtn');
+        const readByIdInput = document.querySelector('#readByIdInput');
+        const btnDeleteById = document.querySelector('#deleteByIdBtn');
+        const deleteByIdInput = document.querySelector('#deleteByIdInput');
+        const createByIdBtn = document.querySelector('#createByIdBtn');
+        const createByIdInputNombre = document.querySelector('#createByIdInputNombre');
+        const createByIdInputLoc = document.querySelector('#createByIdInputLoc');
+        const createByIdInputDepart_no = document.querySelector('#createByIdInputDepart_no');
+        const updateByIdInputDepart_no = document.querySelector('#updateByIdInputDepart_no');
+        const updateByIdInputCampo = document.querySelector('#updateByIdInputCampo');
+        const updateByIdInputValor = document.querySelector('#updateByIdInputValor');
+        const updateByIdBtn = document.querySelector('#updateByIdBtn');
+
+
+        btnReadAll.addEventListener('click', async () => {
+            const response = await fetch(`${uriServer}/api/readAll`);
+            const data = await response.json();
+            console.log(data)
+        });
+
+        btnReadById.addEventListener('click', async () => {
+            const response = await fetch(`${uriServer}/api/readById/${readByIdInput.value}`);
+            const data = await response.json();
+            console.log(data)
+        })
+
+        btnDeleteById.addEventListener('click', async () => {
+            const response = await fetch(`${uriServer}/api/deleteById/${deleteByIdInput.value}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            console.log(data)
+        });
+
+
+        createByIdBtn.addEventListener('click', async () => {
+          const response =  await fetch(`${uriServer}/api/createById/`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    depart_no: createByIdInputDepart_no.value,
+                    dnombre: createByIdInputNombre.value,
+                    loc: createByIdInputLoc.value
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+        
+            const data = await response.json();
+            console.log(data)
+        });
+
+
+        updateByIdBtn.addEventListener('click',async()=>{
+            const response =  await fetch(`${uriServer}/api/patchById/${updateByIdInputDepart_no.value}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    depart_no: updateByIdInputDepart_no.value,
+                    campo: updateByIdInputCampo.value,
+                    valor: updateByIdInputValor.value
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+        
+            const data = await response.json();
+            console.log(data)
+        })
+
+    </script>
+</body>
+
+</html>
