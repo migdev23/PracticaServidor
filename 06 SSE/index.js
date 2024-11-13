@@ -2,7 +2,7 @@ const http = require('http');
 
 
 const server = http.createServer((req,res) => {
-    console.log('hola')
+ 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

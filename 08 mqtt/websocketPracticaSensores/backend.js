@@ -1,5 +1,4 @@
 const aedes = require('aedes')();
-const net = require('net');
 const ws = require('ws');
 const http = require('http');
 const websocketStream = require('websocket-stream');

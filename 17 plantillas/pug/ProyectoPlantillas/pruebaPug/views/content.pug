@@ -1,0 +1,86 @@
+.container-md
+    .row
+        .col-6
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus nesciunt, minima deleniti quis ipsum quas? Dignissimos consequuntur dolor, officia voluptas distinctio eaque harum quaerat magnam temporibus, odit expedita, cum illo!
+        .col-6
+            p Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio consequatur sint perspiciatis repellendus veritatis, commodi molestias consequuntur nobis sunt rerum quam unde pariatur praesentium neque explicabo ea. Sapiente, dolorem voluptatibus.
+    .row
+        .col-4 
+            .card(style='width: 18rem;')
+                    .card-body
+                        h5.card-title Card title
+                        h6.card-subtitle.mb-2.text-body-secondary Card subtitle
+                        p.card-text
+                        | Some quick example text to build on the card title and make up the bulk of the card&apos;s content.
+                        a.card-link(href='#') Card link
+                        a.card-link(href='#') Another link
+        .col-4 
+            .card(style='width: 18rem;')
+                    .card-body
+                        h5.card-title Card title
+                        h6.card-subtitle.mb-2.text-body-secondary Card subtitle
+                        p.card-text
+                        | Some quick example text to build on the card title and make up the bulk of the card&apos;s content.
+                        a.card-link(href='#') Card link
+                        a.card-link(href='#') Another link
+        .col-4 
+            .card(style='width: 18rem;')
+                    .card-body
+                        h5.card-title Card title
+                        h6.card-subtitle.mb-2.text-body-secondary Card subtitle
+                        p.card-text
+                        | Some quick example text to build on the card title and make up the bulk of the card&apos;s content.
+                        a.card-link(href='#') Card link
+                        a.card-link(href='#') Another link
+    .row 
+        .col-4
+        .col-4
+            #carouselExample.carousel.slide
+                .carousel-inner
+                    .carousel-item.active
+                        img.d-block.w-100(src= arr_img[0], alt='1' width="300")
+                    .carousel-item
+                        img.d-block.w-100(src= arr_img[1], alt='2' width="300")
+                button.carousel-control-prev(type='button' data-bs-target='#carouselExample' data-bs-slide='prev')
+                    span.carousel-control-prev-icon(aria-hidden='true')
+                    span.visually-hidden Previous
+                button.carousel-control-next(type='button' data-bs-target='#carouselExample' data-bs-slide='next')
+                    span.carousel-control-next-icon(aria-hidden='true')
+                    span.visually-hidden Next
+        .col-4
+    .row
+        #exampleModalToggle.modal.fade(aria-hidden='true' aria-labelledby='exampleModalToggleLabel' tabindex='-1')
+            .modal-dialog.modal-dialog-centered
+                .modal-content
+                    .modal-header
+                        h1#exampleModalToggleLabel.modal-title.fs-5 Login
+                        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                    .modal-body
+                        .mb-3
+                            label.form-label(for='exampleFormControlInput1') Email address
+                            input#exampleFormControlInput1.form-control(type='email' name='email' placeholder='name@example.com')
+                        .mb-3
+                            label.form-label(for='exampleFormControlTextarea1') Contraseña
+                            input#inputPassword5.form-control(type='password' name='password' aria-describedby='passwordHelpBlock')
+
+                    .modal-footer
+                        button.btn.btn-primary(data-bs-target='#exampleModalToggle' id='btn-login' data-bs-toggle='modal') Iniciar Sesion
+                        button.btn.btn-primary(data-bs-target='#exampleModalToggle2' data-bs-toggle='modal') No tengo Cuenta
+        #exampleModalToggle2.modal.fade(aria-hidden='true' aria-labelledby='exampleModalToggleLabel2' tabindex='-1')
+            .modal-dialog.modal-dialog-centered
+                .modal-content
+                    .modal-header
+                        h1#exampleModalToggleLabel2.modal-title.fs-5 Registro
+                        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                    .modal-body
+                        .mb-3
+                            label.form-label(for='exampleFormControlInput1') Email address
+                            input#exampleFormControlInput1.form-control(type='email' name='password' placeholder='name@example.com')
+                        .mb-3
+                            label.form-label(for='exampleFormControlTextarea1') Contraseña
+                            input#inputPassword5.form-control(type='password' aria-describedby='passwordHelpBlock')
+                            label.form-label(for='exampleFormControlTextarea1') Repite la contraseña
+                            input#inputPassword5.form-control(type='password' name='repassword' aria-describedby='passwordHelpBlock')
+                    .modal-footer
+                        button.btn.btn-primary(data-bs-target='#exampleModalToggle' id='btn-registro' data-bs-toggle='modal') Registrarse
+                        button.btn.btn-primary(data-bs-target='#exampleModalToggle' data-bs-toggle='modal') Volver al Login

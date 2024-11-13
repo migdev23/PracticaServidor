@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        (async()=>{
+            if(localStorage.getItem('jwt')){
+                const responseP = await fetch('http://localhost:3000/private/privado2', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization':localStorage.getItem('jwt')
+                    },
+                });
+
+                const dataP = await responseP.text();
+
+                document.write(dataP)
+            }else{
+                document.write('No estas autenticado')
+            }
+        })()
+    </script>
+</body>
+</html>
