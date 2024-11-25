@@ -1,0 +1,178 @@
+//- Barra de navegación
+nav.navbar.navbar-expand-lg.bg-body-tertiary
+  .container-fluid
+    a.navbar-brand(href='/') Menu
+    button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarNav.collapse.navbar-collapse
+    if login
+      ul.navbar-nav.mx-auto
+        li.nav-item
+          a.nav-link.active(href='/') Inicio
+        li.nav-item
+          a.nav-link.active(href='/private') Privada
+        li.nav-item
+          button.btn.btn-danger(id='btn-logout') Cerrar Sesion
+    else
+      ul.navbar-nav.mx-auto
+        li.nav-item
+          a.nav-link.active(href='/') Inicio
+        li.nav-item
+          button.btn.btn-primary(data-bs-target='#exampleModalToggle' data-bs-toggle='modal') Identificarse
+
+//- Modal Login
+#exampleModalToggle.modal.fade(aria-hidden='true' aria-labelledby='exampleModalToggleLabel' tabindex='-1')
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header
+        h1#exampleModalToggleLabel.modal-title.fs-5 Login
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        .mb-3
+          label.form-label(for='exampleFormControlInput1') Email address
+          input#exampleFormControlInput1.form-control(type='email' name='emailLogin' placeholder='name@example.com')
+        .mb-3
+          label.form-label(for='exampleFormControlTextarea1') Contraseña
+          input#inputPassword5.form-control(type='password' name='passwordLogin' aria-describedby='passwordHelpBlock')
+      .modal-footer
+        button.btn.btn-primary(id='btn-login') Iniciar Sesion
+        button.btn.btn-secondary(data-bs-target='#exampleModalToggle2' data-bs-toggle='modal' data-bs-dismiss='modal') Crear Cuenta
+
+//- Modal Registro
+#exampleModalToggle2.modal.fade(aria-hidden='true' aria-labelledby='exampleModalToggleLabel2' tabindex='-1')
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header
+        h1#exampleModalToggleLabel2.modal-title.fs-5 Registro
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        .mb-3
+          label.form-label(for='exampleFormControlInput2') Email address
+          input#exampleFormControlInput2.form-control(type='email' name='emailRegister' placeholder='name@example.com')
+        .mb-3
+          label.form-label(for='exampleFormControlTextarea2') Contraseña
+          input#inputPassword6.form-control(type='password' name='passwordRegister' aria-describedby='passwordHelpBlock')
+        .mb-3
+          label.form-label(for='exampleFormControlTextarea3') Repite la contraseña
+          input#inputPassword7.form-control(type='password' name='repasswordRegister' aria-describedby='passwordHelpBlock')
+      .modal-footer
+        button.btn.btn-primary(id='btn-registro') Registrarse
+        button.btn.btn-secondary(data-bs-target='#exampleModalToggle' data-bs-toggle='modal' data-bs-dismiss='modal') Volver al Login
+
+//- Manejar Auth
+script.
+  const lanzarAlertaErrorTemporal = (tipo='alert-success', mensaje, elementDOM='body') => {
+      document.querySelectorAll('.alertPersonalizado')?.forEach(alert => alert.remove());
+      let alert = document.createElement('div');
+      let button = document.createElement('button');
+      button.innerText = 'x';
+      button.style.position = 'absolute';
+      button.style.left = '95%'
+      button.style.background = 'transparent'
+      button.style.border = 'none'
+      button.style.top = '0%'
+      alert.classList = `alert ${tipo} alertPersonalizado`;
+      alert.innerText = mensaje;
+      alert.append(button);
+      document.querySelector(elementDOM).prepend(alert);
+      button.addEventListener('click',()=>alert.remove())
+  }
+
+  const inputEmailLogin = document.querySelector('input[name="emailLogin"]');
+  const inputPasswordLogin = document.querySelector('input[name="passwordLogin"]');
+  const inputEmailRegister = document.querySelector('input[name="emailRegister"]');
+  const inputPasswordRegister = document.querySelector('input[name="passwordRegister"]');
+  const inputRePasswordRegister = document.querySelector('input[name="repasswordRegister"]');
+  const btnRegistro = document.querySelector('#btn-registro');
+  const btnLogout = document.querySelector('#btn-logout');
+  const btnLogin = document.querySelector('#btn-login');
+  
+  /*Accion Registro*/
+  btnRegistro?.addEventListener('click', async () => {
+    if (inputPasswordRegister.value.trim() !== '' 
+      && inputPasswordRegister.value === inputRePasswordRegister.value 
+      && inputEmailRegister.value.trim() !== '' 
+      && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputEmailRegister.value.trim())) {
+
+      const dataRegister = {
+        email: inputEmailRegister.value.trim(),
+        password: inputPasswordRegister.value,
+        repassword: inputRePasswordRegister.value,
+      };
+
+      try {
+        const respuestaRegister = await fetch('http://localhost:3000/auth/register', {
+          method: 'post', 
+          headers: { 'Content-Type': 'application/json' }, 
+          body: JSON.stringify(dataRegister)
+        });
+
+        const {error, msg} = await respuestaRegister.json();
+        
+        if(error != null){
+          lanzarAlertaErrorTemporal('alert-danger',
+                                error,
+                                '.modal.fade.show .modal-content .modal-body');
+        }else{
+          lanzarAlertaErrorTemporal('alert-success',
+                                msg,
+                                '.modal.fade.show .modal-content .modal-body')
+        }
+
+      } catch (error) {
+          lanzarAlertaErrorTemporal('alert-danger',
+                                    'Algo salio mal en el registro', 
+                                    '.modal.fade.show .modal-content .modal-body');
+      } 
+    } else {
+      lanzarAlertaErrorTemporal('alert-danger',
+                                'Pon un email valido, y dos contraseñas iguales',
+                                '.modal.fade.show .modal-content .modal-body');
+    }
+  });
+
+  /*Accion Login*/
+  btnLogin?.addEventListener('click', async () => {
+
+    const dataLogin = {
+      email: inputEmailLogin.value.trim(),
+      password: inputPasswordLogin.value,
+    };
+
+    try{
+      const respuestaLogin = await fetch('http://localhost:3000/auth/login', {
+        method: 'post', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(dataLogin)
+      });
+
+      const {error, msg, token} = await respuestaLogin.json();
+      
+      if(error != null){
+          lanzarAlertaErrorTemporal('alert-danger',
+                                error,
+                                '.modal.fade.show .modal-content .modal-body');
+      }else{
+          lanzarAlertaErrorTemporal('alert-success',
+                                msg,
+                                '.modal.fade.show .modal-content .modal-body');
+
+          window.location.href = window.location.origin + window.location.pathname;
+      }
+
+    }catch(e){
+          lanzarAlertaErrorTemporal('alert-danger',
+                                'Algo salio mal.',
+                                '.modal.fade.show .modal-content .modal-body');
+    }
+    
+  });
+
+  btnLogout?.addEventListener('click', async () => {
+      await fetch("http://localhost:3000/auth/logout", {
+        method: 'get', 
+        headers: { 'Content-Type': 'application/json' }
+      });
+  })
+
+

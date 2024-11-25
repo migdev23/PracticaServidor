@@ -1,6 +1,11 @@
-//- extends layout
-
-//- block content
-//-   h1= message
-//-   h2= error.status
-//-   pre #{error.stack}
+doctype html
+html
+  head
+    title Error
+  body
+    h1 Error
+    p Ha ocurrido un error inesperado.
+    if message
+      p= message
+    if error
+      pre= error.stack

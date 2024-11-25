@@ -17,8 +17,6 @@ app.use('/auth/', routerAuth);
 
 app.use('/private/',authUserMid,routerPrivate);
 
-
-
 app.all('*',(req,res)=>{
     res.status(404).send('not found');
 });
